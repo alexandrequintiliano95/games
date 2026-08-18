@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+        content="Jogo da sequência numérica — quebra-cabeça deslizante para jogar direto no navegador." />
+    <meta name="author" content="Alexandre Quintiliano" />
+    <meta name="theme-color" content="#0d0708" />
+    <title>Sequência Numérica</title>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
+        rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="panel">
+        <span class="eyebrow">Game</span>
+        <h1>Sequência Numérica</h1>
+        <p class="intro">O tabuleiro começa embaralhado. Arraste as peças pelos espaços vazios até a sequência ficar na
+            ordem certa, da esquerda para a direita e de cima para baixo.</p>
+
+        <div class="puzzle" id="puzzleSequencia" data-puzzle>
+            <div class="puzzle-modes" role="group" aria-label="Tamanho do tabuleiro">
+                <button type="button" data-puzzle-mode="original" aria-pressed="true">3×4 · 1 a 9, 0 e *</button>
+                <button type="button" data-puzzle-mode="classico" aria-pressed="false">3×3 · 1 a 8</button>
+                <button type="button" data-puzzle-mode="dificil" aria-pressed="false">4×4 · 1 a 15</button>
+            </div>
+
+            <div class="puzzle-board" data-puzzle-board role="group" aria-label="Tabuleiro"></div>
+
+            <div class="puzzle-stats">
+                <span><i class="fas fa-shoe-prints"></i><strong data-puzzle-moves>0</strong> <span
+                        data-puzzle-moves-label>movimentos</span></span>
+                <span><i class="fas fa-stopwatch"></i><strong data-puzzle-time>00:00</strong></span>
+                <span data-puzzle-best></span>
+            </div>
+
+            <p class="puzzle-status" data-puzzle-status role="status" aria-live="polite"></p>
+
+            <p class="puzzle-help">Arraste a peça na direção do espaço vazio — vale mouse ou dedo. Pelo teclado, as
+                setas movem a peça no sentido escolhido; clique num espaço vazio para escolher qual deles as setas
+                controlam.</p>
+        </div>
+
+        <div class="panel-actions">
+            <button class="btn btn-primary" type="button" data-puzzle-shuffle>
+                <i class="fas fa-shuffle"></i>
+                Embaralhar
+            </button>
+        </div>
+    </main>
+
+    <script src="js/sequencia-numerica.js"></script>
+</body>
+
+</html>

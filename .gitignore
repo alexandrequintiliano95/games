@@ -1,0 +1,30 @@
+# Configuração local de ferramentas (servidor de preview, agentes)
+.claude/
+
+# Editores
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+
+# Sistema operacional
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Dependências e build, caso o projeto ganhe ferramentas depois
+node_modules/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
