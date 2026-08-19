@@ -1,0 +1,19 @@
+{
+  "name": "Sudoku",
+  "short_name": "Sudoku",
+  "description": "Sudoku com três níveis, anotações e cronômetro.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d0708",
+  "theme_color": "#0d0708",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "../assets/icone-sudoku-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

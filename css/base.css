@@ -1,6 +1,6 @@
 /*!
- * Sequência Numérica — quebra-cabeça deslizante
- * Mesmos tokens e mesma aparência da versão do portfólio.
+ * Games — Alexandre Quintiliano
+ * Base compartilhada: tokens, painel, botões e menu.
  */
 
 /* ============================================================
@@ -44,6 +44,7 @@
     --accent-strong: #b91c1c;
     --accent-ink: #ffffff;
     --accent-soft: rgba(239, 68, 68, 0.14);
+    --ok: #22c55e;
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 18px 40px -22px rgba(0, 0, 0, 0.9);
@@ -70,7 +71,9 @@ body {
     min-height: 100svh;
     display: grid;
     place-items: center;
-    padding: clamp(var(--s-4), 4vw, var(--s-10));
+    /* respeita o recorte da tela do iPhone no modo tela cheia */
+    padding: max(clamp(var(--s-4), 4vw, var(--s-10)), env(safe-area-inset-top)) var(--s-4)
+        max(clamp(var(--s-4), 4vw, var(--s-10)), env(safe-area-inset-bottom));
     background: var(--bg);
     background-image: radial-gradient(60% 55% at 50% -10%, rgba(239, 68, 68, 0.14), transparent 70%);
     background-attachment: fixed;
@@ -79,6 +82,7 @@ body {
     font-size: var(--fs-body);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
 }
 
 h1 {
@@ -99,6 +103,11 @@ button {
     color: inherit;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
 ::selection {
     background: var(--accent);
     color: var(--accent-ink);
@@ -114,9 +123,11 @@ button {
    Painel
    ============================================================ */
 .panel {
+    position: relative;
     width: 100%;
     max-width: 640px;
-    padding: clamp(var(--s-8), 5vw, var(--s-12));
+    /* no celular o painel aperta as bordas para o tabuleiro caber maior */
+    padding: clamp(var(--s-5), 5vw, var(--s-12));
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-lg);
     background: var(--bg-soft);
@@ -140,22 +151,55 @@ button {
 
 .panel-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: var(--s-3);
     margin-top: var(--s-10);
 }
 
+/* Volta para o menu — no atalho da tela inicial não existe botão de voltar */
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: color var(--dur) ease;
+}
+
+.back i {
+    transition: transform var(--dur) var(--ease);
+}
+
+.back:hover {
+    color: var(--accent);
+}
+
+.back:hover i {
+    transform: translateX(-3px);
+}
+
+/* ============================================================
+   Botões
+   ============================================================ */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--s-2);
+    min-height: 44px;
     padding: var(--s-3) var(--s-6);
     border: 1px solid transparent;
     border-radius: 999px;
     font-size: var(--fs-sm);
     font-weight: 600;
     cursor: pointer;
-    transition: transform var(--dur) var(--ease), background var(--dur) ease, box-shadow var(--dur) ease;
+    transition: transform var(--dur) var(--ease), background var(--dur) ease,
+        border-color var(--dur) ease, color var(--dur) ease, box-shadow var(--dur) ease;
 }
 
 .btn i {
@@ -171,10 +215,6 @@ button {
     transform: translateY(0);
 }
 
-.btn:hover i {
-    transform: rotate(-90deg);
-}
-
 .btn-primary {
     background: var(--accent-strong);
     border-color: var(--accent-strong);
@@ -187,25 +227,32 @@ button {
     box-shadow: 0 12px 28px -14px var(--accent);
 }
 
-/* ============================================================
-   Jogo da sequência numérica
-   ============================================================ */
-.puzzle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--s-5);
-    margin-top: var(--s-6);
+.btn-primary:hover i {
+    transform: rotate(-90deg);
 }
 
-.puzzle-modes {
+.btn-ghost {
+    background: transparent;
+    border-color: var(--border-strong);
+    color: var(--text);
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+/* Grupo de dificuldade / modo */
+.modes {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--s-2);
 }
 
-.puzzle-modes button {
+.modes button {
+    min-height: 38px;
     padding: var(--s-2) var(--s-4);
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -218,145 +265,21 @@ button {
     transition: color var(--dur) ease, border-color var(--dur) ease, background var(--dur) ease;
 }
 
-.puzzle-modes button:hover {
+.modes button:hover {
     color: var(--text);
     border-color: var(--accent);
 }
 
-.puzzle-modes button[aria-pressed="true"] {
+.modes button[aria-pressed="true"] {
     color: var(--text);
     border-color: var(--accent);
     background: var(--accent-soft);
 }
 
-.puzzle-board {
-    position: relative;
-    width: min(100%, 340px);
-    aspect-ratio: var(--cols) / var(--rows);
-    container-type: inline-size;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-strong);
-    background: color-mix(in srgb, var(--accent) 7%, var(--bg-soft));
-    box-shadow: var(--shadow-md);
-    touch-action: manipulation;
-}
-
-.puzzle-cells {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: repeat(var(--cols), 1fr);
-    grid-template-rows: repeat(var(--rows), 1fr);
-    border-radius: inherit;
-    overflow: hidden;
-}
-
-.puzzle-cells div {
-    box-shadow: inset 0 0 0 1px var(--border);
-    transition: background var(--dur) ease;
-}
-
-.puzzle-cells div.active {
-    background: var(--accent-soft);
-}
-
-.puzzle-tile {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: grid;
-    place-items: center;
-    width: calc(100% / var(--cols));
-    height: calc(100% / var(--rows));
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: grab;
-    touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
-    transform: translate(calc(var(--x, 0) * 100% + var(--dx, 0px)), calc(var(--y, 0) * 100% + var(--dy, 0px)));
-    transition: transform 0.18s var(--ease);
-}
-
-/* Asterisco desenhado: as hastes ficam com o mesmo peso e altura dos números */
-.puzzle-symbol {
-    display: block;
-    width: 0.71em;
-    height: 0.71em;
-    fill: none;
-    overflow: visible;
-}
-
-/* Enquanto arrasta, a peça acompanha o dedo/mouse sem animação */
-.puzzle-tile.dragging {
-    z-index: 2;
-    cursor: grabbing;
-    transition: none;
-}
-
-.puzzle-tile.dragging span {
-    transform: scale(1.04);
-    box-shadow: 0 12px 22px rgba(10, 4, 5, 0.5);
-}
-
-.puzzle-tile span {
-    display: grid;
-    place-items: center;
-    width: 82%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 0.26em solid #d92b2b;
-    background: #fff8f7;
-    color: #2a1012;
-    font-family: var(--font-display);
-    font-size: calc(30cqw / var(--cols));
-    font-weight: 700;
-    line-height: 1;
-    box-shadow: 0 6px 14px rgba(10, 4, 5, 0.4);
-    transition: transform 0.25s var(--ease), border-color 0.3s ease;
-}
-
-.puzzle-tile:hover span {
-    transform: scale(1.06);
-}
-
-.puzzle-tile:active span {
-    transform: scale(0.95);
-}
-
-.puzzle-tile:focus-visible {
-    outline: none;
-}
-
-.puzzle-tile:focus-visible span {
-    outline: 3px solid var(--accent);
-    outline-offset: 3px;
-}
-
-.puzzle-board.solved .puzzle-tile {
-    cursor: default;
-}
-
-.puzzle-board.solved .puzzle-tile span {
-    border-color: #16a34a;
-    animation: puzzle-pop 0.55s var(--ease) both;
-    animation-delay: calc(var(--i) * 45ms);
-}
-
-@keyframes puzzle-pop {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    45% {
-        transform: scale(1.12);
-    }
-}
-
-.puzzle-stats {
+/* ============================================================
+   Placar e mensagens (compartilhado pelos jogos)
+   ============================================================ */
+.stats {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -366,31 +289,101 @@ button {
     color: var(--text-muted);
 }
 
-.puzzle-stats i {
+.stats i {
     margin-right: var(--s-2);
     color: var(--accent-2);
 }
 
-.puzzle-stats strong {
+.stats strong {
     color: var(--text);
     font-variant-numeric: tabular-nums;
 }
 
-.puzzle-status {
+.status {
     min-height: 1.4em;
     text-align: center;
     color: var(--text-muted);
     font-size: var(--fs-sm);
 }
 
-.puzzle-status.win {
-    color: #22c55e;
+.status.win {
+    color: var(--ok);
     font-weight: 600;
 }
 
-.puzzle-help {
+.help {
     max-width: 52ch;
     text-align: center;
+    color: var(--text-dim);
+    font-size: var(--fs-xs);
+}
+
+/* ============================================================
+   Menu
+   ============================================================ */
+.menu {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-8);
+}
+
+.menu-item {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: border-color var(--dur) ease, background var(--dur) ease, transform var(--dur) var(--ease);
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+}
+
+.menu-art {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius);
+    background: #fff8f7;
+    border: 1px solid var(--border);
+    padding: var(--s-1);
+}
+
+.menu-item h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 4vw, 1.15rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: var(--track-tight);
+    text-wrap: balance;
+}
+
+.menu-item p {
+    color: var(--text-muted);
+    font-size: var(--fs-xs);
+    line-height: 1.45;
+}
+
+.menu-item .go {
+    color: var(--accent);
+    transition: transform var(--dur) var(--ease);
+}
+
+.menu-item:hover .go {
+    transform: translateX(var(--s-2));
+}
+
+.tip {
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--border);
     color: var(--text-dim);
     font-size: var(--fs-xs);
 }

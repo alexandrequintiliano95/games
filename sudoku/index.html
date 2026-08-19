@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Sudoku para jogar direto no navegador, com três níveis de dificuldade." />
+    <meta name="author" content="Alexandre Quintiliano" />
+    <meta name="theme-color" content="#0d0708" />
+    <!-- Atalho na tela inicial (iOS) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sudoku" />
+    <link rel="apple-touch-icon" href="../assets/icone-sudoku-180.png" />
+    <link rel="icon" type="image/png" href="../assets/icone-sudoku-180.png" />
+    <!-- manifesto próprio: o atalho criado daqui abre o Sudoku, não o menu -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>Sudoku</title>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
+        rel="stylesheet" />
+    <link href="../css/base.css" rel="stylesheet" />
+    <link href="../css/sudoku.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="panel">
+        <a class="back" href="../"><i class="fas fa-arrow-left"></i> Jogos</a>
+        <span class="eyebrow">Game</span>
+        <h1>Sudoku</h1>
+        <p class="intro">Complete o tabuleiro de forma que cada linha, cada coluna e cada quadrado de 3×3 tenham os
+            números de 1 a 9 sem repetir.</p>
+
+        <div class="sudoku" id="sudoku" data-sudoku>
+            <div class="modes" role="group" aria-label="Dificuldade">
+                <button type="button" data-sudoku-level="facil" aria-pressed="true">Fácil</button>
+                <button type="button" data-sudoku-level="medio" aria-pressed="false">Médio</button>
+                <button type="button" data-sudoku-level="dificil" aria-pressed="false">Difícil</button>
+            </div>
+
+            <div class="sudoku-board" data-sudoku-board role="group" aria-label="Tabuleiro"></div>
+
+            <div class="sudoku-pad" data-sudoku-pad>
+                <button type="button" data-sudoku-number="1">1</button>
+                <button type="button" data-sudoku-number="2">2</button>
+                <button type="button" data-sudoku-number="3">3</button>
+                <button type="button" data-sudoku-number="4">4</button>
+                <button type="button" data-sudoku-number="5">5</button>
+                <button type="button" data-sudoku-number="6">6</button>
+                <button type="button" data-sudoku-number="7">7</button>
+                <button type="button" data-sudoku-number="8">8</button>
+                <button type="button" data-sudoku-number="9">9</button>
+                <button type="button" data-sudoku-erase aria-label="Apagar"><i class="fas fa-eraser"></i></button>
+            </div>
+
+            <div class="sudoku-tools">
+                <button type="button" data-sudoku-notes aria-pressed="false">
+                    <i class="fas fa-pencil"></i>
+                    Anotações
+                </button>
+                <button type="button" data-sudoku-new>
+                    <i class="fas fa-rotate"></i>
+                    Novo jogo
+                </button>
+            </div>
+
+            <div class="stats">
+                <span><i class="fas fa-stopwatch"></i><strong data-sudoku-time>00:00</strong></span>
+                <span><i class="fas fa-table-cells"></i><strong data-sudoku-left>81</strong> a preencher</span>
+                <span data-sudoku-best></span>
+            </div>
+
+            <p class="status" data-sudoku-status role="status" aria-live="polite"></p>
+
+            <p class="help">Com <strong>Anotações</strong> ligado, os toques escrevem as possibilidades pequenas na
+                casa. Tocar de novo no mesmo número apaga. Números repetidos na mesma linha, coluna ou quadrado ficam
+                em vermelho. No computador dá para usar os números, as setas e a tecla N.</p>
+        </div>
+    </main>
+
+    <script src="../js/sudoku.js"></script>
+</body>
+
+</html>

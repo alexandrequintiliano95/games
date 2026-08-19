@@ -1,0 +1,19 @@
+{
+  "name": "Sequência Numérica",
+  "short_name": "Sequência",
+  "description": "Quebra-cabeça deslizante: arraste as peças até a ordem certa.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d0708",
+  "theme_color": "#0d0708",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "../assets/icone-sequencia-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

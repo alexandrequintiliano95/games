@@ -3,12 +3,19 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description"
-        content="Jogo da sequência numérica — quebra-cabeça deslizante para jogar direto no navegador." />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Jogos para passar o tempo direto no navegador: sequência numérica e sudoku." />
     <meta name="author" content="Alexandre Quintiliano" />
     <meta name="theme-color" content="#0d0708" />
-    <title>Sequência Numérica</title>
+    <!-- Atalho na tela inicial (iOS) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Jogos" />
+    <link rel="apple-touch-icon" href="assets/icone-jogos-180.png" />
+    <link rel="icon" type="image/png" href="assets/icone-jogos-180.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>Jogos</title>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -16,48 +23,70 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
         rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/base.css" rel="stylesheet" />
 </head>
 
 <body>
     <main class="panel">
-        <span class="eyebrow">Game</span>
-        <h1>Sequência Numérica</h1>
-        <p class="intro">O tabuleiro começa embaralhado. Arraste as peças pelos espaços vazios até a sequência ficar na
-            ordem certa, da esquerda para a direita e de cima para baixo.</p>
+        <span class="eyebrow">Jogos</span>
+        <h1>Escolha o jogo</h1>
+        <p class="intro">Dá para jogar direto pelo navegador, sem instalar nada.</p>
 
-        <div class="puzzle" id="puzzleSequencia" data-puzzle>
-            <div class="puzzle-modes" role="group" aria-label="Tamanho do tabuleiro">
-                <button type="button" data-puzzle-mode="original" aria-pressed="true">3×4 · 1 a *</button>
-                <button type="button" data-puzzle-mode="classico" aria-pressed="false">3×3 · 1 a 8</button>
-                <button type="button" data-puzzle-mode="dificil" aria-pressed="false">4×4 · 1 a 15</button>
-            </div>
+        <nav class="menu">
+            <a class="menu-item" href="sequencia/">
+                <svg class="menu-art" viewBox="0 0 56 56" aria-hidden="true">
+                    <g fill="#fff8f7" stroke="#d92b2b" stroke-width="3">
+                        <circle cx="17" cy="17" r="9" />
+                        <circle cx="39" cy="17" r="9" />
+                        <circle cx="17" cy="39" r="9" />
+                    </g>
+                    <g fill="#2a1012" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="700"
+                        text-anchor="middle" dominant-baseline="central">
+                        <text x="17" y="17">1</text>
+                        <text x="39" y="17">2</text>
+                        <text x="17" y="39">3</text>
+                    </g>
+                    <rect x="30" y="30" width="18" height="18" rx="4" fill="none" stroke="#d92b2b"
+                        stroke-width="3" stroke-dasharray="4 3" />
+                </svg>
+                <div>
+                    <h2>Sequência Numérica</h2>
+                    <p>Arraste as peças até deixar os números na ordem certa.</p>
+                </div>
+                <i class="fas fa-arrow-right go"></i>
+            </a>
 
-            <div class="puzzle-board" data-puzzle-board role="group" aria-label="Tabuleiro"></div>
+            <a class="menu-item" href="sudoku/">
+                <svg class="menu-art" viewBox="0 0 56 56" aria-hidden="true">
+                    <rect x="5" y="5" width="46" height="46" rx="5" fill="#fff8f7" stroke="#d92b2b"
+                        stroke-width="3" />
+                    <g stroke="#d92b2b" stroke-width="2.4" opacity="0.85">
+                        <line x1="20.3" y1="5" x2="20.3" y2="51" />
+                        <line x1="35.6" y1="5" x2="35.6" y2="51" />
+                        <line x1="5" y1="20.3" x2="51" y2="20.3" />
+                        <line x1="5" y1="35.6" x2="51" y2="35.6" />
+                    </g>
+                    <g fill="#2a1012" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="700"
+                        text-anchor="middle" dominant-baseline="central">
+                        <text x="12.6" y="12.6">5</text>
+                        <text x="28" y="28">9</text>
+                        <text x="43.3" y="43.3">7</text>
+                        <text x="43.3" y="12.6">3</text>
+                        <text x="12.6" y="43.3">1</text>
+                    </g>
+                </svg>
+                <div>
+                    <h2>Sudoku</h2>
+                    <p>Três níveis, com anotações e cronômetro.</p>
+                </div>
+                <i class="fas fa-arrow-right go"></i>
+            </a>
+        </nav>
 
-            <div class="puzzle-stats">
-                <span><i class="fas fa-shoe-prints"></i><strong data-puzzle-moves>0</strong> <span
-                        data-puzzle-moves-label>movimentos</span></span>
-                <span><i class="fas fa-stopwatch"></i><strong data-puzzle-time>00:00</strong></span>
-                <span data-puzzle-best></span>
-            </div>
-
-            <p class="puzzle-status" data-puzzle-status role="status" aria-live="polite"></p>
-
-            <p class="puzzle-help">Arraste a peça na direção do espaço vazio — vale mouse ou dedo. Pelo teclado, as
-                setas movem a peça no sentido escolhido; clique num espaço vazio para escolher qual deles as setas
-                controlam.</p>
-        </div>
-
-        <div class="panel-actions">
-            <button class="btn btn-primary" type="button" data-puzzle-shuffle>
-                <i class="fas fa-shuffle"></i>
-                Embaralhar
-            </button>
-        </div>
+        <p class="tip">No iPhone dá para adicionar qualquer uma destas telas à tela de início: abra a página no Safari,
+            toque em Compartilhar e depois em <strong>Adicionar à Tela de Início</strong>. Feito a partir desta página,
+            o atalho abre o menu; feito de dentro de um jogo, abre direto nele.</p>
     </main>
-
-    <script src="js/sequencia-numerica.js"></script>
 </body>
 
 </html>
